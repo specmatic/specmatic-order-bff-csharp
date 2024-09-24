@@ -1,0 +1,12 @@
+target/*
+.DS_Store
+*.iml
+build/*
+.idea/*
+/kafka-logs/
+/.specmatic/
+.vscode/*
+bin/
+obj/
+build/reports/specmatic/
+/recordings_backup/
