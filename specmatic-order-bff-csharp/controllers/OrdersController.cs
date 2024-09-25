@@ -5,7 +5,7 @@ using specmatic_order_bff_csharp.services;
 namespace specmatic_order_bff_csharp.controllers;
 
 [ApiController]
-[Route("/order")]
+[Route("[controller]")]
 public class OrdersController(IOrderBFFService orderBffService) : ControllerBase
 {
     [HttpPost]

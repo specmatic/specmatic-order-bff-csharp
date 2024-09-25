@@ -28,7 +28,7 @@ public class OrderService : IOrderService
         using var response = await client.SendAsync(request);
         var responseString = await response.Content.ReadAsStringAsync();
         var responseObject = JsonSerializer.Deserialize<OrderResponse>(responseString);
-        if (responseObject != null) orderId = responseObject.Id;
+        if (responseObject != null) orderId = responseObject.id;
         return orderId;
     }
 }
