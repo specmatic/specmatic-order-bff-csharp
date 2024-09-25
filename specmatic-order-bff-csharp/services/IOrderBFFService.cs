@@ -2,7 +2,7 @@ using specmatic_order_bff_csharp.models;
 
 namespace specmatic_order_bff_csharp.services;
 
-public interface IOrderBFFService
+public interface IOrderBffService
 {
-    OrderResponse CreateOrder(OrderRequest orderRequest);
+    IdResponse CreateOrder(OrderRequest orderRequest);
 }

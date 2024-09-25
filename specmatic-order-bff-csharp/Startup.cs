@@ -19,8 +19,10 @@ public class Startup
             })
             .AddXmlSerializerFormatters();
 
-        services.AddSingleton<IOrderBFFService, OrderBffService>();
+        services.AddSingleton<IOrderBffService, OrderBffService>();
         services.AddSingleton<IOrderService, OrderService>();
+        services.AddSingleton<IProductBffService, ProductBffService>();
+        services.AddSingleton<IProductService, ProductService>();
         
         services.AddHttpClient();
     }
