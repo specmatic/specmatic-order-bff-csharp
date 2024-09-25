@@ -13,4 +13,10 @@ public class ProductsController(IProductBffService productBffService) : Controll
     {
         return StatusCode(StatusCodes.Status201Created, productBffService.CreateProduct(productRequest));
     }
+
+    [HttpGet("/findAvailableProducts")]
+    public IActionResult FindAvailableProducts([FromHeader]int pageSize, [FromQuery]string? type = "")
+    {
+        return StatusCode(StatusCodes.Status200OK, productBffService.FindProducts(type!));
+    }
 }

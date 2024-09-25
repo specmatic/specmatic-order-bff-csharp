@@ -5,7 +5,7 @@ namespace specmatic_order_bff_csharp.models;
 
 public class ProductRequest
 {
-    public string name { get; set; }
-    public string type { get; set; }
-    [Range(1, 101)] public int inventory { get; set; }
+    public required string Name { get; set; }
+    public required string Type { get; set; }
+    [Range(1, 101)] public required int Inventory { get; set; }
 }

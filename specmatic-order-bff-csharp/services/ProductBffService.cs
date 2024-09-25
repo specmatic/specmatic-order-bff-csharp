@@ -10,4 +10,9 @@ public class ProductBffService(IProductService productService) : IProductBffServ
         var id = productService.CreateProduct(productRequest);
         return new IdResponse(id);
     }
+
+    public IEnumerable<Product> FindProducts(string type)
+    {
+        return productService.FindProducts(type);
+    }
 }
