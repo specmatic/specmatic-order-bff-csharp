@@ -24,7 +24,11 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
+    - name: Install Docker
+      run: |
+        curl -fsSL https://get.docker.com -o get-docker.sh
+        sh get-docker.sh
     - name: Verify Docker is running
-      run: docker info
+      run: docker --version
     - name: Test
       run: dotnet test --no-build --verbosity normal
