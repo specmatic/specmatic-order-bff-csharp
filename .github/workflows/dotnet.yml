@@ -24,13 +24,5 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
-    - name: Setup Testcontainers Cloud Client
-      uses: atomicjar/testcontainers-cloud-setup-action@v1
-      with:
-        token: ${{ secrets.TC_CLOUD_TOKEN }}
-        wait: true
-    - name: Check host.docker.internal resolution
-      run: |
-        docker run --rm alpine sh -c "apk add --no-cache curl && curl -s host.docker.internal"
     - name: Test
       run: dotnet test --no-build --verbosity normal
