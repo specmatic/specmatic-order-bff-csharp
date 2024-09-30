@@ -24,9 +24,5 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
-    - name: Add host.docker.internal to /etc/hosts
-      run: |
-          HOST_IP=$(ip route | awk 'NR==1 {print $3}')
-          echo "$HOST_IP host.docker.internal" | sudo tee -a /etc/hosts
     - name: Test
       run: dotnet test --no-build --verbosity normal
