@@ -12,7 +12,7 @@ on:
 jobs:
   build:
 
-    runs-on: macos-latest
+    runs-on: linux-latest
 
     steps:
     - uses: actions/checkout@v4
@@ -24,20 +24,10 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
-    # Install Homebrew
-    - name: Install Homebrew
-      run: |
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-        echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
-        eval "$(/opt/homebrew/bin/brew shellenv)"  # Load Homebrew into the path
-
-    # Install Docker using Homebrew
-    - name: Install Docker
-      run: |
-        brew install docker
-        brew install docker-machine
-        brew install docker-compose
-    - name: Verify Docker is running
-      run: docker --version
+    - name: Setup Testcontainers Cloud Client
+      uses: atomicjar/testcontainers-cloud-setup-action@v1
+      with:
+        token: ${{ secrets.TC_CLOUD_TOKEN }}
+        wait: true
     - name: Test
       run: dotnet test --no-build --verbosity normal
