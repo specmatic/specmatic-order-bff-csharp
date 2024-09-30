@@ -29,5 +29,9 @@ jobs:
       with:
         token: ${{ secrets.TC_CLOUD_TOKEN }}
         wait: true
+    - name: Add host.docker.internal to /etc/hosts
+      run: |
+          HOST_IP=$(ip route | awk 'NR==1 {print $3}')
+          echo "$HOST_IP host.docker.internal" | sudo tee -a /etc/hosts
     - name: Test
       run: dotnet test --no-build --verbosity normal
