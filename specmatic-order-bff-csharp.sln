@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "specmatic-order-bff-csharp", "specmatic-order-bff-csharp\specmatic-order-bff-csharp.csproj", "{731659D5-ACB2-4B90-9E25-315CF2D656C7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "specmatic-order-bff-csharp.test", "specmatic-order-bff-csharp.test\specmatic-order-bff-csharp.test.csproj", "{11C91365-8E75-4E2D-9F0D-24798D512EFF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{731659D5-ACB2-4B90-9E25-315CF2D656C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{731659D5-ACB2-4B90-9E25-315CF2D656C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{731659D5-ACB2-4B90-9E25-315CF2D656C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11C91365-8E75-4E2D-9F0D-24798D512EFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11C91365-8E75-4E2D-9F0D-24798D512EFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11C91365-8E75-4E2D-9F0D-24798D512EFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11C91365-8E75-4E2D-9F0D-24798D512EFF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
