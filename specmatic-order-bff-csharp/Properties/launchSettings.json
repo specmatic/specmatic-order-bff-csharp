@@ -12,11 +12,11 @@
     "http": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "launchBrowser": true,
+      "launchBrowser": false,
       "applicationUrl": "http://localhost:8080",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "ORDER_API_URL": "http://localhost:8090"
+        "ORDER_API_URL": "http://localhost:9000"
       }
     },
     "IIS Express": {

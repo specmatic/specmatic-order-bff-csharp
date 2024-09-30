@@ -1,6 +1,6 @@
 namespace specmatic_order_bff_csharp;
 
-class Program
+public static class Program
 {
     public static void Main(string[] args)
     {

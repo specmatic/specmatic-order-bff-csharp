@@ -1,6 +1,8 @@
+using System.Text.Json.Serialization;
+
 namespace specmatic_order_bff_csharp.models;
 
 public class IdResponse(int id)
 {
-    public int id { get; init; } = id;
+    [JsonPropertyName("id")]public int Id { get; init; } = id;
 }

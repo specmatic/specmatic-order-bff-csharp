@@ -30,15 +30,15 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="reports\**" />
-    </ItemGroup>
-
-    <ItemGroup>
       <Compile Remove="reports\**" />
     </ItemGroup>
 
     <ItemGroup>
       <EmbeddedResource Remove="reports\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="reports\**" />
     </ItemGroup>
 
 </Project>
