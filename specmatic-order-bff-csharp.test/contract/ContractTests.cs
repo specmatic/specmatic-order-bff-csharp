@@ -44,7 +44,6 @@ public class ContractTests : IAsyncLifetime
             .WithPortBinding(8090)
             .WithExposedPort(8090)
             .WithWaitStrategy(Wait.ForUnixContainer().UntilMessageIsLogged("Tests run:"))
-            .WithBindMount($"{Pwd}/reports", $"{TestContainerDirectory}/build/reports/specmatic)")
             .WithBindMount(
                 $"{Pwd}/specmatic.yaml",
                 $"{TestContainerDirectory}/specmatic.yaml").Build();
