@@ -37,9 +37,6 @@ jobs:
         brew install docker
         brew install docker-machine
         brew install docker-compose
-    - name: Start Docker
-      run: |
-        open -a Docker
     - name: Verify Docker is running
       run: docker --version
     - name: Test
