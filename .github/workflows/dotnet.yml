@@ -29,5 +29,7 @@ jobs:
       with:
         token: ${{ secrets.TC_CLOUD_TOKEN }}
         wait: true
+    - name: Check host.docker.internal resolution
+      run: docker run --rm appropriate/curl -s host.docker.internal
     - name: Test
       run: dotnet test --no-build --verbosity normal
