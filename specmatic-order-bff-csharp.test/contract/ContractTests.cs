@@ -17,11 +17,7 @@ public class ContractTests : IAsyncLifetime
     [Fact]
     public async Task ContractTestsAsync()
     {
-        var readBytes = await _testContainer
-            .ReadFileAsync(TestContainerDirectory+ "/build/reports/specmatic/html/index.html");
-        var file = new FileInfo(Pwd + "/reports/specmaticReport.html");
-        file.Directory?.Create();
-        await File.WriteAllBytesAsync(file.FullName, readBytes);
+        await RunContractTests();
     }
 
     public async Task InitializeAsync()
@@ -31,7 +27,6 @@ public class ContractTests : IAsyncLifetime
 
         StartOrderBffService();
         await StartDomainServiceStub();
-        await RunContractTests();
     }
 
     private async Task RunContractTests()
@@ -45,6 +40,7 @@ public class ContractTests : IAsyncLifetime
             .WithPortBinding(8090)
             .WithExposedPort(8090)
             .WithWaitStrategy(Wait.ForUnixContainer().UntilMessageIsLogged("Tests run:"))
+            .WithBindMount($"{Pwd}/reports", $"{TestContainerDirectory}/build/reports")
             .WithBindMount(
                 $"{Pwd}/specmatic.yaml",
                 $"{TestContainerDirectory}/specmatic.yaml").Build();
