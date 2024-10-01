@@ -40,6 +40,7 @@ public class ContractTests : IAsyncLifetime
         Directory.CreateDirectory(localReportDirectory);
 
         var hostIp = Environment.GetEnvironmentVariable("HOST_IP") ?? "host-gateway";
+        Console.WriteLine($"HostIp: {hostIp}");
         
         _testContainer = new ContainerBuilder()
             .WithImage("znsio/specmatic").WithCommand("test")
