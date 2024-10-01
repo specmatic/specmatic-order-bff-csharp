@@ -3,7 +3,7 @@
     "path": "/products?type=other",
     "method": "GET"
   },
-  "delay-in-seconds": 10,
+  "delay-in-seconds": 5,
   "http-response": {
     "status": 200,
     "body": [],

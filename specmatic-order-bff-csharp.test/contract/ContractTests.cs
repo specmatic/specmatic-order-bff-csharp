@@ -18,6 +18,11 @@ public class ContractTests : IAsyncLifetime
     public async Task ContractTestsAsync()
     {
         await RunContractTests();
+        var logs = await _testContainer.GetLogsAsync();
+        if (!logs.Stdout.Contains("Failures: 0"))
+        {
+            Assert.Fail("There are failing tests");
+        }
     }
 
     public async Task InitializeAsync()
