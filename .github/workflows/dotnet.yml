@@ -25,6 +25,6 @@ jobs:
         token: ${{ secrets.TC_CLOUD_TOKEN }}
         wait: true
     - name: Get host IP for Docker (macOS)
-      run: echo "HOST_IP=$(ip route get 1 | awk '{print $NF;exit}')" >> $GITHUB_ENV
+      run: echo "HOST_IP=$(ifconfig lo0 | grep 'inet ' | awk '{print $2}')" >> $GITHUB_ENV
     - name: Test
       run: dotnet test --no-build --verbosity normal
