@@ -39,10 +39,13 @@ public class ContractTests : IAsyncLifetime
         var localReportDirectory = Path.Combine(Pwd, "reports");
         Directory.CreateDirectory(localReportDirectory);
 
+        var hostIp = Environment.GetEnvironmentVariable("HOST_IP") ?? "host-gateway";
+        
         _testContainer = new ContainerBuilder()
             .WithImage("znsio/specmatic").WithCommand("test")
             .WithCommand("--port=8080")
             .WithCommand("--host=host.docker.internal")
+            .WithExtraHost("host.docker.internal", hostIp)
             .WithOutputConsumer(Consume.RedirectStdoutAndStderrToConsole())
             .WithPortBinding(8090)
             .WithExposedPort(8090)
@@ -78,6 +81,7 @@ public class ContractTests : IAsyncLifetime
             .WithImage("znsio/specmatic").WithCommand("stub")
             .WithCommand("--examples=examples")
             .WithPortBinding(9000)
+            .WithOutputConsumer(Consume.RedirectStdoutAndStderrToConsole())
             .WithExposedPort(9000)
             .WithReuse(true)
             .WithBindMount($"{Pwd}/examples/domain_service", $"{TestContainerDirectory}/examples")
