@@ -31,6 +31,9 @@ public class ContractTests : IAsyncLifetime
 
     private async Task RunContractTests()
     { 
+        var localReportDirectory = Path.Combine(Pwd, "reports");
+        Directory.CreateDirectory(localReportDirectory);
+
         _testContainer = new ContainerBuilder()
             .WithImage("znsio/specmatic").WithCommand("test")
             .WithCommand("--port=8080")
@@ -40,7 +43,7 @@ public class ContractTests : IAsyncLifetime
             .WithPortBinding(8090)
             .WithExposedPort(8090)
             .WithWaitStrategy(Wait.ForUnixContainer().UntilMessageIsLogged("Tests run:"))
-            .WithBindMount($"{Pwd}/reports", $"{TestContainerDirectory}/build/reports")
+            .WithBindMount(localReportDirectory, $"{TestContainerDirectory}/build/reports")
             .WithBindMount(
                 $"{Pwd}/specmatic.yaml",
                 $"{TestContainerDirectory}/specmatic.yaml").Build();
