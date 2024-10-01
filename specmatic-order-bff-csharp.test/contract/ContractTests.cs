@@ -45,10 +45,8 @@ public class ContractTests : IAsyncLifetime
             .WithImage("znsio/specmatic").WithCommand("test")
             .WithCommand("--port=8080")
             .WithCommand("--host=host.docker.internal")
-            .WithExtraHost("host.docker.internal", hostIp)
             .WithOutputConsumer(Consume.RedirectStdoutAndStderrToConsole())
-            .WithPortBinding(8090)
-            .WithExposedPort(8090)
+            .WithNetwork(new NetworkBuilder().WithName("test").Build())
             .WithWaitStrategy(Wait.ForUnixContainer().UntilMessageIsLogged("Tests run:"))
             .WithBindMount(localReportDirectory, $"{TestContainerDirectory}/build/reports")
             .WithBindMount(
