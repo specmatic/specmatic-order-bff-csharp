@@ -9,7 +9,8 @@ public class ContractTests : IAsyncLifetime
 {
     private IContainer _stubContainer, _testContainer;
     private Process _appProcess;
-    private static readonly string Pwd = Directory.GetParent(Directory.GetCurrentDirectory())?.Parent?.Parent?.FullName ?? string.Empty;
+    private static readonly string Pwd =
+        Directory.GetParent(Directory.GetCurrentDirectory())?.Parent?.Parent?.FullName ?? string.Empty;
     private readonly string _projectPath = Directory.GetParent(Pwd)?.FullName ?? string.Empty;
     private const string ProjectName = "specmatic-order-bff-csharp/specmatic-order-bff-csharp.csproj";
     private const string TestContainerDirectory = "/usr/src/app";
