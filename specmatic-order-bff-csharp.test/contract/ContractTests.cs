@@ -45,6 +45,7 @@ public class ContractTests : IAsyncLifetime
             .WithImage("znsio/specmatic").WithCommand("test")
             .WithCommand("--port=8080")
             .WithCommand("--host=host.docker.internal")
+            .WithExtraHost("host.docker.internal", hostIp)
             .WithOutputConsumer(Consume.RedirectStdoutAndStderrToConsole())
             .WithNetwork(new NetworkBuilder().WithName("test").Build())
             .WithWaitStrategy(Wait.ForUnixContainer().UntilMessageIsLogged("Tests run:"))
@@ -71,6 +72,7 @@ public class ContractTests : IAsyncLifetime
             }
         };
         _appProcess.Start();
+        Console.WriteLine($"Order BFF service started on id: {_appProcess.Id}");
     }
 
     private async Task StartDomainServiceStub()
