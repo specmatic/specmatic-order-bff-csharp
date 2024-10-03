@@ -37,7 +37,7 @@ public class ContractTests : IAsyncLifetime
 
     private async Task RunContractTests()
     { 
-        var localReportDirectory = Path.Combine(Pwd, "reports");
+        var localReportDirectory = Path.Combine(Pwd, "build", "reports");
         Directory.CreateDirectory(localReportDirectory);
         
         _testContainer = new ContainerBuilder()

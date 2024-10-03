@@ -13,4 +13,4 @@ build/reports/specmatic/
 specmatic-order-bff-csharp/build/
 specmatic-order-bff-csharp.sln.DotSettings
 specmatic-order-bff-csharp.sln.DotSettings.user
-specmatic-order-bff-csharp.test/reports/
+specmatic-order-bff-csharp.test/build/
