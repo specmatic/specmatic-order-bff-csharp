@@ -1,7 +1,8 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
-using specmatic_order_bff_csharp.exceptions;
 using specmatic_order_bff_csharp.models;
 using specmatic_order_bff_csharp.services;
+using ValidationException = specmatic_order_bff_csharp.exceptions.ValidationException;
 
 namespace specmatic_order_bff_csharp.controllers;
 
@@ -16,9 +17,9 @@ public class ProductsController(OrderBffService orderBffService) : ControllerBas
     }
 
     [HttpGet("/findAvailableProducts")]
-    public IActionResult FindAvailableProducts([FromHeader]int pageSize, [FromQuery]string? type = "")
+    public IActionResult FindAvailableProducts([FromHeader, Required]int pageSize, [FromQuery]string? type = "")
     {
-        if (pageSize<0) throw new ArgumentException("Page size cannot be less than zero");
+        if (pageSize<0) return BadRequest(new {Error ="Page size cannot be less than zero"});
         try
         {
             return StatusCode(StatusCodes.Status200OK, orderBffService.FindProducts(type ?? string.Empty));
