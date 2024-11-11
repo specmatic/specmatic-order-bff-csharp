@@ -11,17 +11,17 @@ public class OrderService
     private readonly string _orderApiUrl = Environment.GetEnvironmentVariable("ORDER_API_URL") ?? string.Empty;
     private const string AuthToken = "API-TOKEN-SPEC";
 
-    public int CreateOrder(OrderRequest orderRequest)
+    public virtual int CreateOrder(OrderRequest orderRequest)
     {
         return CreateOrderAsync(new Order(orderRequest.Productid, orderRequest.Count, "pending")).Result;
     }
     
-    public int CreateProduct(ProductRequest productRequest)
+    public virtual int CreateProduct(ProductRequest productRequest)
     {
         return CreateProductAsync(productRequest).Result;
     }
 
-    public IEnumerable<Product> FindProducts(string type)
+    public virtual IEnumerable<Product> FindProducts(string type)
     {
         return FindProductsAsync(type).Result;
     }
