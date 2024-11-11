@@ -10,7 +10,11 @@ public class OrderService
 {
     private readonly string _orderApiUrl = Environment.GetEnvironmentVariable("ORDER_API_URL") ?? string.Empty;
     private const string AuthToken = "API-TOKEN-SPEC";
-
+    private HttpClient _httpClient;
+    public OrderService(HttpClient httpClient = null)
+    {
+        _httpClient = httpClient ?? new HttpClient();
+    }
     public virtual int CreateOrder(OrderRequest orderRequest)
     {
         return CreateOrderAsync(new Order(orderRequest.Productid, orderRequest.Count, "pending")).Result;
@@ -71,8 +75,8 @@ public class OrderService
     
     private HttpClient GetHttpClient()
     {
-        var client = new HttpClient();
-        client.BaseAddress = new Uri(_orderApiUrl);
+        var client = _httpClient;
+        client.BaseAddress = client.BaseAddress ?? new Uri(_orderApiUrl);
         client.Timeout = TimeSpan.FromSeconds(4);
         client.DefaultRequestHeaders.Accept.Clear();
         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
