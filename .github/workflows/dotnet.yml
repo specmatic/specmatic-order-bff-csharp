@@ -77,7 +77,7 @@ jobs:
 
         echo "Coverage Information:"
         line_coverage=$(awk -F'"' '/line-rate/ {print $2 * 100; exit}' TestResults/*/coverage.cobertura.xml)
-        branch_coverage=$(awk -F'branch-rate="' '{print $2}' TestResults/*/coverage.cobertura.xml | awk -F'"' '{print $1}')
+        branch_coverage=$(awk -F'branch-rate="' '{print $2}' TestResults/*/coverage.cobertura.xml | awk -F'"' '{print $1}' | head -n 1)
 
         # Set environment variables to use in subsequent steps
         echo "Line Coverage: ${line_coverage}%" >>  $GITHUB_STEP_SUMMARY
@@ -85,7 +85,7 @@ jobs:
         
         #Test case to be covered
         total_lines=$(awk -F'lines-covered="' '{print $2}' TestResults/*/coverage.cobertura.xml | awk -F'"' '{print $1}')
-        covered_lines=$(awk -F'line-rate="' -v total_lines="$total_lines" '{print int($2 * total_lines); exit}' TestResults/*/coverage.cobertura.xml | awk -F'"' '{print int($1)}')
+        covered_lines=$(awk -F'line-rate="' -v total_lines="$total_lines" '{print int($2 * total_lines); exit}' TestResults/*/coverage.cobertura.xml)
         uncovered_lines=$((total_lines - covered_lines))
         echo "- Total Lines: ${total_lines}" >> $GITHUB_STEP_SUMMARY
         echo "- Covered Lines: ${covered_lines}" >> $GITHUB_STEP_SUMMARY
