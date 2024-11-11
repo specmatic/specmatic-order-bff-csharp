@@ -48,11 +48,47 @@ jobs:
         token: ${{ secrets.TC_CLOUD_TOKEN }}
         wait: true
 
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+    - name: Test with Coverage
+      run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage" /p:CollectCoverage=true --results-directory ./TestResults
+      env:
+        COVERLET_OUTPUT_FORMAT: cobertura
 
+    - name: Upload Cobertura Coverage Report
+      uses: actions/upload-artifact@v4
+      with:
+        name: cobertura-coverage-report
+        path: TestResults/*/coverage.cobertura.xml
+    
     - name: Upload HTML Test Report
       uses: actions/upload-artifact@v4
       with:
         name: html-report
         path: specmatic-order-bff-csharp.test/build/reports/specmatic/html
+
+
+    - name: Build Summary
+      run: |
+        echo "Deployment Information:"
+        deployment_status="${{ job.status }}"
+        echo "Deployment Status: ${deployment_status}" >>  $GITHUB_STEP_SUMMARY
+
+        #Dotnet Information
+        echo ".NET Version: $(dotnet --version)" >> $GITHUB_STEP_SUMMARY
+
+        echo "Coverage Information:"
+        line_coverage=$(awk -F'"' '/line-rate/ {print $2 * 100; exit}' TestResults/*/coverage.cobertura.xml)
+        branch_coverage=$(awk -F'"' '/branch-rate/ {print $2 * 100; exit}' TestResults/*/coverage.cobertura.xml)
+
+        # Set environment variables to use in subsequent steps
+        echo "Line Coverage: ${line_coverage}%" >>  $GITHUB_STEP_SUMMARY
+        echo "Branch Coverage: ${branch_coverage}%" >>  $GITHUB_STEP_SUMMARY
+        
+        #Test case covered
+        total_lines=$(awk -F'"' '/lines-covered/ {total+=$2} END {print total}' TestResults/*/coverage.cobertura.xml)
+        covered_lines=$(awk -F'"' '/line-rate/ {print int($2 * total_lines); exit}' TestResults/*/coverage.cobertura.xml)
+        uncovered_lines=$((total_lines - covered_lines))
+        echo "- Total Lines: ${total_lines}" >> $GITHUB_STEP_SUMMARY
+        echo "- Covered Lines: ${covered_lines}" >> $GITHUB_STEP_SUMMARY
+        echo "- Uncovered Lines: ${uncovered_lines}" >> $GITHUB_STEP_SUMMARY
+
+      
