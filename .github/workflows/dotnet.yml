@@ -83,7 +83,7 @@ jobs:
         echo "Line Coverage: ${line_coverage}%" >>  $GITHUB_STEP_SUMMARY
         echo "Branch Coverage: ${branch_coverage}%" >>  $GITHUB_STEP_SUMMARY
         
-        #Test case covered
+        #Test case to be covered
         total_lines=$(awk -F'"' '/lines-covered/ {total+=$2} END {print total}' TestResults/*/coverage.cobertura.xml)
         covered_lines=$(awk -F'"' '/line-rate/ {print int($2 * total_lines); exit}' TestResults/*/coverage.cobertura.xml)
         uncovered_lines=$((total_lines - covered_lines))
