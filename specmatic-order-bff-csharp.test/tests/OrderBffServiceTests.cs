@@ -9,13 +9,13 @@ public class OrderBffServiceTests
 {
     private readonly OrderBffService _orderBffService;
     private readonly Mock<OrderService> _mockOrderService;
-    // private readonly Mock<HttpMessageHandler> _mockHttpMessageHandler;
+    private readonly Mock<HttpMessageHandler> _mockHttpMessageHandler;
     public OrderBffServiceTests()
     {
-        // _mockHttpMessageHandler = new Mock<HttpMessageHandler>();
-        // var mockHttpClient = new HttpClient(_mockHttpMessageHandler.Object);
-        _mockOrderService = new Mock<OrderService>() { CallBase = true };
-         _orderBffService = new OrderBffService(_mockOrderService.Object);
+        _mockHttpMessageHandler = new Mock<HttpMessageHandler>();
+        var mockHttpClient = new HttpClient(_mockHttpMessageHandler.Object);
+        _mockOrderService = new Mock<OrderService>(mockHttpClient) { CallBase = true };
+        _orderBffService = new OrderBffService(_mockOrderService.Object);
       
     }
 

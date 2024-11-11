@@ -10,7 +10,7 @@ public class OrderService
 {
     private readonly string _orderApiUrl = Environment.GetEnvironmentVariable("ORDER_API_URL") ?? string.Empty;
     private const string AuthToken = "API-TOKEN-SPEC";
-    private HttpClient _httpClient;
+    private readonly HttpClient _httpClient;
     public OrderService(HttpClient httpClient = null)
     {
         _httpClient = httpClient ?? new HttpClient();
