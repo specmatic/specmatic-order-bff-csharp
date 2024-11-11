@@ -85,7 +85,7 @@ jobs:
         
         #Test case to be covered
         total_lines=$(awk -F'lines-covered="' '{print $2}' TestResults/*/coverage.cobertura.xml | awk -F'"' '{print $1}')
-        covered_lines=$(awk -F'line-rate="' -v total_lines="$total_lines" '{print int($2 * total_lines); exit}' TestResults/*/coverage.cobertura.xml)
+        covered_lines=$(awk -F'line-rate="' -v total_lines="$total_lines" '{gsub(/\n/, ""); print int($2 * total_lines); exit}' TestResults/*/coverage.cobertura.xml)
         uncovered_lines=$((total_lines - covered_lines))
         echo "- Total Lines: ${total_lines}" >> $GITHUB_STEP_SUMMARY
         echo "- Covered Lines: ${covered_lines}" >> $GITHUB_STEP_SUMMARY
