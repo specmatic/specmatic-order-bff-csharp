@@ -2,10 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using specmatic_order_bff_csharp.backend;
 using specmatic_order_bff_csharp.services;
 using ValidationException = specmatic_order_bff_csharp.exceptions.ValidationException;
-
-namespace specmatic_order_bff_csharp;
 using System.Diagnostics.CodeAnalysis;
-
+namespace specmatic_order_bff_csharp;
 [ExcludeFromCodeCoverage]
 public class Startup
 {
