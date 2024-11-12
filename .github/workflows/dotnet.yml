@@ -48,16 +48,10 @@ jobs:
         token: ${{ secrets.TC_CLOUD_TOKEN }}
         wait: true
 
-    - name: Run Tests with JUnit Output
+    - name: Run Tests with xUnit Output
       run: dotnet test --no-build --verbosity normal --logger "xunit;LogFileName=TestResults/test-result.xml" --results-directory ./TestResults 
 
-    - name: List files in TestResults directory
-      run: ls -al ./TestResults
-    
-    - name: List files in TestResults directory
-      run: ls -al ./TestResults
-
-    - name: Run Tests with JUnit Output
+    - name: Run Tests with xUnit Output
       run: dotnet test --no-build --verbosity normal --logger "xunit;LogFileName=test-result.xml" --results-directory ./TestResults 
 
     - name: Upload Test Report
@@ -69,7 +63,8 @@ jobs:
     - name: Upload Test Results to GitHub Test Reporter
       uses: dorny/test-reporter@v1.9.1
       with:
-        reporter: junit
+        reporter: xunit
+        name: Test Results
         file: TestResults/*/test-result.xml
 
     
