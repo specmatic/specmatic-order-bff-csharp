@@ -49,21 +49,21 @@ jobs:
         wait: true
 
     - name: Run Tests with xUnit Output
-      run: dotnet test --no-build --verbosity normal --logger "xunit;LogFileName=TestResults/test-result.xml" --results-directory ./TestResults 
+      run: dotnet test --no-build --verbosity normal --logger "trx;LogFileName=TestResults/test-result.trx" --results-directory ./TestResults 
 
 
     - name: Upload Test Report
       uses: actions/upload-artifact@v4
       with:
         name: test-report
-        path: TestResults/*/test-result.xml
+        path: TestResults/*/test-result.trx
 
     - name: Upload Test Results to GitHub Test Reporter
       uses: dorny/test-reporter@v1.9.1
       with:
         reporter: dotnet-trx
         name: Test Results
-        path: TestResults/*/test-result.xml
+        path: TestResults/*/test-result.trx
 
     
     - name: Upload HTML Test Report
