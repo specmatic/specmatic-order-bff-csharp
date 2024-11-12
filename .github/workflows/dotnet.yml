@@ -13,9 +13,9 @@ on:
         default: 'warning'
         type: choice
         options:
-        - info
-        - warning
-        - debug
+          - info
+          - warning
+          - debug
       tags:
         description: 'Test scenario tags'
         required: false
@@ -48,16 +48,15 @@ jobs:
         token: ${{ secrets.TC_CLOUD_TOKEN }}
         wait: true
 
-    - name: Test with Coverage
-      run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage" /p:CollectCoverage=true --results-directory ./TestResults
-      env:
-        COVERLET_OUTPUT_FORMAT: cobertura
+    - name: Run Tests (Generate JUnit Test Report)
+      run: |
+        dotnet test --no-build --verbosity normal --logger "junit;LogFileName=test-result.xml"
 
-    - name: Upload Cobertura Coverage Report
-      uses: actions/upload-artifact@v4
+    - name: Upload JUnit Test Report to GitHub Test Reporter
+      uses: github/test-reporter-action@v1
       with:
-        name: cobertura-coverage-report
-        path: TestResults/*/coverage.cobertura.xml
+        test_report_file: './TestResults/test-result.xml'
+
     
     - name: Upload HTML Test Report
       uses: actions/upload-artifact@v4
@@ -66,30 +65,3 @@ jobs:
         path: specmatic-order-bff-csharp.test/build/reports/specmatic/html
 
 
-    - name: Build Summary
-      run: |
-        echo "Deployment Information:"
-        deployment_status="${{ job.status }}"
-        echo "Deployment Status: ${deployment_status}" >>  $GITHUB_STEP_SUMMARY
-
-        #Dotnet Information
-        echo ".NET Version: $(dotnet --version)" >> $GITHUB_STEP_SUMMARY
-
-        echo "Coverage Information:"
-        line_coverage=$(awk -F'"' '/line-rate/ {print $2 * 100; exit}' TestResults/*/coverage.cobertura.xml)
-        line_rate=$(awk -F'"' '/line-rate/ {print $2; exit}' TestResults/*/coverage.cobertura.xml)
-        branch_coverage=$(grep -o 'branch-rate="[^"]*"' TestResults/*/coverage.cobertura.xml | head -n 1 | sed 's/branch-rate="//; s/"//')
-        branch_coverage=$(printf "%.2f" "$(echo "$branch_coverage * 100" | bc -l)")
-        # Set environment variables to use in subsequent steps
-        echo "Line Coverage: ${line_coverage}%" >>  $GITHUB_STEP_SUMMARY
-        echo "Branch Coverage: ${branch_coverage}%" >>  $GITHUB_STEP_SUMMARY
-        
-        #Test case to be covered
-        total_lines=$(awk -F'lines-covered="' '{print $2}' TestResults/*/coverage.cobertura.xml | awk -F'"' '{print $1}' | xargs)
-        covered_lines=$(printf "%.0f" "$(echo "$line_rate * $total_lines" | bc)")
-        uncovered_lines=$((total_lines - covered_lines))
-        echo "- Total Lines: ${total_lines}" >> $GITHUB_STEP_SUMMARY
-        echo "- Covered Lines: ${covered_lines}" >> $GITHUB_STEP_SUMMARY
-        echo "- Uncovered Lines: ${uncovered_lines}" >> $GITHUB_STEP_SUMMARY
-
-      
