@@ -63,7 +63,6 @@ jobs:
     - name: Upload Test Results to GitHub Test Reporter
       uses: dorny/test-reporter@v1.9.1
       with:
-        reporter: xunit
         name: Test Results
         path: TestResults/*/test-result.xml
 
