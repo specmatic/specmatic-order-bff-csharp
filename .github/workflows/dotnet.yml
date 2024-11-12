@@ -49,19 +49,22 @@ jobs:
         wait: true
 
     - name: Run Tests with JUnit Output
-      run: dotnet test --no-build --verbosity normal --logger "xunit;LogFileName=test-result.xml"
+      run: dotnet test --no-build --verbosity normal --logger "xunit;LogFileName=test-result.xml" --results-directory ./TestResults 
+
+    - name: Run Tests with JUnit Output
+      run: dotnet test --no-build --verbosity normal --logger "xunit;LogFileName=test-result.xml" --results-directory ./TestResults 
 
     - name: Upload Test Report
       uses: actions/upload-artifact@v4
       with:
         name: test-report
-        path: specmatic-order-bff-csharp/test-result.xml
+        path: TestResults/*/test-result.xml
 
     - name: Upload Test Results to GitHub Test Reporter
       uses: dorny/test-reporter@v1.9.1
       with:
         reporter: junit
-        file: specmatic-order-bff-csharp/test-result.xml
+        file: TestResults/*/test-result.xml
 
     
     - name: Upload HTML Test Report
