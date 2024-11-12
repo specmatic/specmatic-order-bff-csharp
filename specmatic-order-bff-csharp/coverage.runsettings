@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+    <DataCollectionRunSettings>
+        <DataCollectors>
+            <DataCollector friendlyName="Code Coverage">
+                <Configuration>
+                    <Exclude>
+                        <!-- Exclude specific files -->
+                        <File>**/Program.cs</File>
+                        <File>**/Startup.cs</File>
+
+                        <!-- Optionally exclude namespaces -->
+                        <Namespace>specmatic-order-bff-csharp.controllers.*</Namespace>
+                        <Namespace>specmatic-order-bff-csharp.models.*</Namespace>
+                        <Namespace>specmatic-order-bff-csharp.exceptions.*</Namespace>
+                        <Namespace>specmatic-order-bff-csharp.config.*</Namespace>
+                        <Namespace>specmatic-order-bff-csharp.properties.*</Namespace>
+                    </Exclude>
+                </Configuration>
+            </DataCollector>
+        </DataCollectors>
+    </DataCollectionRunSettings>
+</RunSettings>
