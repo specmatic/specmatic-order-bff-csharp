@@ -65,7 +65,7 @@ jobs:
       with:
         reporter: xunit
         name: Test Results
-        file: TestResults/*/test-result.xml
+        path: TestResults/*/test-result.xml
 
     
     - name: Upload HTML Test Report
