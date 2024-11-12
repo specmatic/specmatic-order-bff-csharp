@@ -48,14 +48,20 @@ jobs:
         token: ${{ secrets.TC_CLOUD_TOKEN }}
         wait: true
 
-    - name: Run Tests (Generate JUnit Test Report)
-      run: |
-        dotnet test --no-build --verbosity normal --logger "junit;LogFileName=test-result.xml"
+    - name: Run Tests with JUnit Output
+      run: dotnet test --no-build --verbosity normal --logger "junit;LogFileName=test-result.xml"
 
-    - name: Upload JUnit Test Report to GitHub Test Reporter
-      uses: github/test-reporter-action@v1
+    - name: Upload Test Report
+      uses: actions/upload-artifact@v4
       with:
-        test_report_file: './TestResults/test-result.xml'
+        name: test-report
+        path: specmatic-order-bff-csharp/test-result.xml
+
+    - name: Upload Test Results to GitHub Test Reporter
+      uses: dorny/test-reporter@v1.9.1
+      with:
+        reporter: junit
+        file: specmatic-order-bff-csharp/test-result.xml
 
     
     - name: Upload HTML Test Report
