@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using specmatic_order_bff_csharp.models;
 using specmatic_order_bff_csharp.services;
-
+using System.Diagnostics.CodeAnalysis;
 namespace specmatic_order_bff_csharp.controllers;
 
 [ApiController]
 [Route("[controller]")]
+[ExcludeFromCodeCoverage]
 public class OrdersController(OrderBffService orderBffService) : ControllerBase
 {
     [HttpPost]

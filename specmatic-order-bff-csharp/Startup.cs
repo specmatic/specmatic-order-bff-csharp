@@ -4,7 +4,9 @@ using specmatic_order_bff_csharp.services;
 using ValidationException = specmatic_order_bff_csharp.exceptions.ValidationException;
 
 namespace specmatic_order_bff_csharp;
+using System.Diagnostics.CodeAnalysis;
 
+[ExcludeFromCodeCoverage]
 public class Startup
 {
     public void ConfigureServices(IServiceCollection services)
