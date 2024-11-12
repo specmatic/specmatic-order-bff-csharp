@@ -2,19 +2,22 @@
 <RunSettings>
     <DataCollectionRunSettings>
         <DataCollectors>
-            <DataCollector friendlyName="Code Coverage">
+            <DataCollector friendlyName="XPlat Code Coverage">
                 <Configuration>
                     <Exclude>
                         <!-- Exclude specific files -->
-                        <File>**/Program.cs</File>
-                        <File>**/Startup.cs</File>
+                        <Class>specmatic_order_bff_csharp.Program</Class>
+                         <Class>specmatic_order_bff_csharp.Startup</Class>
 
                         <!-- Optionally exclude namespaces -->
-                        <Namespace>specmatic-order-bff-csharp.controllers.*</Namespace>
-                        <Namespace>specmatic-order-bff-csharp.models.*</Namespace>
-                        <Namespace>specmatic-order-bff-csharp.exceptions.*</Namespace>
-                        <Namespace>specmatic-order-bff-csharp.config.*</Namespace>
-                        <Namespace>specmatic-order-bff-csharp.properties.*</Namespace>
+                        <File>**/Program.cs</File>
+                         <File>**/Startup.cs</File>
+                        <File>**/controllers/*.cs</File>
+                        <File>**/models/*.cs</File>
+                        <File>**/exceptions/*.cs</File>
+                        <File>**/config/*.cs</File>
+                        <File>**/properties/*.cs</File>
+                
                     </Exclude>
                 </Configuration>
             </DataCollector>
