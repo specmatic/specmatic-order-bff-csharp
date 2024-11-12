@@ -66,6 +66,9 @@ jobs:
         output: file
         thresholds: "60 80"
 
+    - name: List files in the workspace
+      run: ls -la 
+      
     - name: Display Code Coverage in Summary
       run: |
         echo "${{ steps.coverage-report.outputs.report }}" >> $GITHUB_STEP_SUMMARY
