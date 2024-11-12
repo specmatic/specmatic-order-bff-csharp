@@ -51,8 +51,6 @@ jobs:
     - name: Run Tests with xUnit Output
       run: dotnet test --no-build --verbosity normal --logger "xunit;LogFileName=TestResults/test-result.xml" --results-directory ./TestResults 
 
-    - name: Run Tests with xUnit Output
-      run: dotnet test --no-build --verbosity normal --logger "xunit;LogFileName=test-result.xml" --results-directory ./TestResults 
 
     - name: Upload Test Report
       uses: actions/upload-artifact@v4
