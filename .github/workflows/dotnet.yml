@@ -66,12 +66,9 @@ jobs:
         output: both
         thresholds: "60 80"
 
-    - name: Upload Cobertura Coverage Report
-      uses: actions/upload-artifact@v4
-      with:
-        name: cobertura-coverage-report
-        path: TestResults/*/coverage.cobertura.xml
-
+    - name: Display Code Coverage in Summary
+      run: |
+        echo "${{ steps.coverage-report.outputs.report }}" >> $GITHUB_STEP_SUMMARY
     
     - name: Upload HTML Test Report
       uses: actions/upload-artifact@v4
