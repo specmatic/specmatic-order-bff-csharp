@@ -49,9 +49,7 @@ jobs:
         wait: true
 
     - name: Test with Coverage
-      run: |
-        ls -la ./coverage.runsettings
-        dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage" /p:CollectCoverage=true --results-directory ./TestResults --settings ./specmatic-order-bff-csharp/coverage.runsettings
+      run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage" /p:CollectCoverage=true --results-directory ./TestResults --settings ./specmatic-order-bff-csharp/coverage.runsettings
       env:
         COVERLET_OUTPUT_FORMAT: cobertura
 
