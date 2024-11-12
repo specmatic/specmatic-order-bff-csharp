@@ -48,22 +48,29 @@ jobs:
         token: ${{ secrets.TC_CLOUD_TOKEN }}
         wait: true
 
-    - name: Run Tests with xUnit Output
-      run: dotnet test --no-build --verbosity normal --logger "trx;LogFileName=TestResults/test-result.trx" --results-directory ./TestResults 
+    - name: Test with Coverage
+      run: dotnet test --no-build --verbosity normal --collect:"XPlat Code Coverage" /p:CollectCoverage=true --results-directory ./TestResults --settings ./specmatic-order-bff-csharp/coverage.runsettings
+      env:
+        COVERLET_OUTPUT_FORMAT: cobertura
 
+    - name: Publish Code Coverage Report
+      uses: irongut/CodeCoverageSummary@v1.3.0
+      with:
+      filename: "Cobertura.xml"
+      badge: true
+      fail_below_min: false # just informative for now
+      format: markdown
+      hide_branch_rate: false
+      hide_complexity: false
+      indicators: true
+      output: both
+      thresholds: "60 80"
 
-    - name: Upload Test Report
+    - name: Upload Cobertura Coverage Report
       uses: actions/upload-artifact@v4
       with:
-        name: test-report
-        path: TestResults/*/test-result.trx
-
-    - name: Upload Test Results to GitHub Test Reporter
-      uses: dorny/test-reporter@v1.9.1
-      with:
-        reporter: dotnet-trx
-        name: Test Results
-        path: TestResults/*/test-result.trx
+        name: cobertura-coverage-report
+        path: TestResults/*/coverage.cobertura.xml
 
     
     - name: Upload HTML Test Report
