@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 using specmatic_order_bff_csharp.backend;
 using specmatic_order_bff_csharp.services;
 using ValidationException = specmatic_order_bff_csharp.exceptions.ValidationException;
-
+using System.Diagnostics.CodeAnalysis;
 namespace specmatic_order_bff_csharp;
-
+[ExcludeFromCodeCoverage]
 public class Startup
 {
     public void ConfigureServices(IServiceCollection services)
@@ -19,8 +19,8 @@ public class Startup
             })
             .AddXmlSerializerFormatters();
 
-        services.AddSingleton<OrderBffService>();
-        services.AddSingleton<OrderService>();
+        services.AddScoped<OrderBffService>();
+        services.AddScoped<OrderService>();
         
         services.AddHttpClient();
     }
