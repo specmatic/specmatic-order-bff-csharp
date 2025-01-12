@@ -13,7 +13,7 @@ public class OrderService(HttpClient httpClient)
 
     public virtual int CreateOrder(OrderRequest orderRequest)
     {
-        return CreateOrderAsync(new Order(orderRequest.ProductId, orderRequest.Count, "pending")).Result;
+        return CreateOrderAsync(new Order(orderRequest.Productid, orderRequest.Count, "pending")).Result;
     }
     
     public virtual int CreateProduct(ProductRequest productRequest)
