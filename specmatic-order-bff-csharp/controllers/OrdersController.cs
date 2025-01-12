@@ -6,7 +6,6 @@ namespace specmatic_order_bff_csharp.controllers;
 
 [ApiController]
 [Route("[controller]")]
-[ExcludeFromCodeCoverage]
 public class OrdersController(OrderBffService orderBffService) : ControllerBase
 {
     [HttpPost]

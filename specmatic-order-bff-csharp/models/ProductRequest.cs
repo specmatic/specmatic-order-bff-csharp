@@ -4,7 +4,6 @@ using System.Diagnostics.CodeAnalysis;
 namespace specmatic_order_bff_csharp.models;
 
 [method: SetsRequiredMembers]
-[ExcludeFromCodeCoverage]
 public class ProductRequest(string name, string type, int inventory)
 {
     public required string Name { get; init; } = name;
