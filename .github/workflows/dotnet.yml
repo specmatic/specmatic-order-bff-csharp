@@ -28,6 +28,9 @@ on:
 jobs:
   contract-test:
     runs-on: ubuntu-latest
+
+    if: github.actor == 'dependabot[bot]' || github.actor == 'dependabot-preview[bot]'
+    
     steps:
     - uses: actions/checkout@v4
 
