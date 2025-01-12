@@ -5,7 +5,7 @@
 
 This sample project demonstrates below aspects of Contract-Driven Development
 * Contract testing a .NET core (C#) application by leveraging its OpenAPI spec to generate tests (#NOCODE)
-* Service Virtualization (Stub / Mock) dependencies of this application (System Under Test), again using OpenAPI specifications of those dependency services
+* Service Virtualization (Stub / Mock) dependencies of this application (System Under Test), again using OpenAPI specifications of those dependency services (#NOCODE)
 
 ## Background
 
@@ -17,7 +17,8 @@ The Backend For Frontend (BFF) application here is the System Under Test (SUT). 
 1. .NET core (version 8)
 2. Specmatic
 3. Test Containers
-4. Docker Desktop and Test Container Cloud
+4. Docker Desktop (on Local) and Test Container Cloud (in CI)
+5. If you are on a Windows OS, please use PowerShell.
 
 # Running Tests
 
@@ -37,15 +38,9 @@ dotnet test
 
 # Break down each component to understand what is happening
 
-### Prerequisites
+## Start the dependent components
 
-1. Docker Desktop
-2. Dotnet SDK
-3. If you are on a Windows OS, please use PowerShell.
-
-### Start the dependent components
-
-1. Start domain api stub server
+### Start domain api stub server
 
 ```shell
 cd specmatic-order-bff-csharp.test
