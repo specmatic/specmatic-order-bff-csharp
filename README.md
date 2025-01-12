@@ -19,19 +19,21 @@ The Backend For Frontend (BFF) application here is the System Under Test (SUT). 
 3. Test Containers
 4. Docker Desktop (on local) and Test Container Cloud (on CI)
 
-# Runing Tests
+# Running Tests
 
 This will start the specmatic stub server for domain api using the information in specmatic.yaml and run contract tests using Specmatic.
-1. Using Terminal -
-   ```shell
-     dotnet test
-   ```
-2. Using docker -
-    - Start Docker Desktop
-    - Run the application `dotnet run`
-    - Navigate to test Project (`/specmatic-order-bff-csharp.test`)
-    - Start the stub Server `docker run -v "$PWD/specmatic.yaml:/usr/src/app/specmatic.yaml" -p 8090:9000 znsio/specmatic stub`
-    - Run the tests `docker run --network host -v "$PWD/specmatic.yaml:/usr/src/app/specmatic.yaml" -v "$PWD/build/reports/specmatic:/usr/src/app/build/reports/specmatic"  znsio/specmatic test --port=8080 --host=host.docker.internal`
+
+```shell
+dotnet test
+```
+
+# Understand how to run the tests step by step
+  - Start Docker Desktop
+  - Navigate to Project (`cd specmatic-order-bff-csharp`)
+  - Run the application `dotnet run`
+  - Navigate to test Project (`cd specmatic-order-bff-csharp.test`)
+  - Start the stub Server `docker run -v "$PWD/specmatic.yaml:/usr/src/app/specmatic.yaml" -v "$PWD/examples:/usr/src/app/examples" -p 9000:9000 znsio/specmatic stub --examples=examples`
+  - Run the tests `docker run --network host -v "$PWD/specmatic.yaml:/usr/src/app/specmatic.yaml" -v "$PWD/build/reports/specmatic:/usr/src/app/build/reports/specmatic"  znsio/specmatic test --port=8080 --host=host.docker.internal`
 
 # Break down each component to understand what is happening
 
@@ -46,12 +48,14 @@ This will start the specmatic stub server for domain api using the information i
 1. Start domain api stub server
 
 ```shell
-docker run -v "$PWD/specmatic.yaml:/usr/src/app/specmatic.yaml" -p 8090:9000 znsio/specmatic stub
+cd specmatic-order-bff-csharp.test
+docker run -v "$PWD/specmatic.yaml:/usr/src/app/specmatic.yaml" -v "$PWD/examples:/usr/src/app/examples" -p 9000:9000 znsio/specmatic stub --examples=examples
 ```
 
 ## Start BFF Server
 This will start the .NET core BFF server
 ```shell
+cd specmatic-order-bff-csharp
 dotnet run
 ```
 
@@ -60,12 +64,12 @@ dotnet run
 Note: For Windows OS, add `.exe` extension to curl command on PowerShell or use `cmd.exe` instead.
 
 ```shell
-curl -H "pageSize: 10" "http://localhost:8080/findAvailableProducts"
+curl -H "pageSize: 10" "http://localhost:8080/findAvailableProducts?type=gadget"
 ```
 
 You result should look like:
 ```json
-[{"id":698,"name":"NUBYR","type":"book","inventory":278}]
+[{"id":10,"name":"iPhone","type":"gadget","inventory":701}]
 ```
 
 Also observe the logs in the Specmatic HTTP Stub Server.
