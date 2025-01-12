@@ -1,12 +1,8 @@
 using Moq;
-using Xunit;
 using specmatic_order_bff_csharp.models;
 using specmatic_order_bff_csharp.backend;
 using System.Net;
-using System.Net.Http;
 using System.Text.Json;
-using System.Threading.Tasks;
-using System.Collections.Generic;
 using Moq.Protected;
 namespace specmatic_order_bff_csharp.test.tests;
 public class OrderServiceTests
@@ -119,6 +115,5 @@ public class OrderServiceTests
             item => Assert.Equal(expectedProducts[1].Id, item.Id)
             // Add more checks for each item based on properties
         );
-
     }
 }

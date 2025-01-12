@@ -1,7 +1,5 @@
 using Moq;
-using Xunit;
 using specmatic_order_bff_csharp.models;
-using System.Collections.Generic;
 using specmatic_order_bff_csharp.backend;
 using specmatic_order_bff_csharp.services;
 namespace specmatic_order_bff_csharp.test.tests;
