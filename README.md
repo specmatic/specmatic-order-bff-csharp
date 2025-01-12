@@ -14,10 +14,10 @@ The Backend For Frontend (BFF) application here is the System Under Test (SUT). 
 ![CSharp Contract Driven Development](assets/specmatic-order-bff-architecture.gif)
 
 ## Tech Stack
-1. .NET core
+1. .NET core (version 8)
 2. Specmatic
 3. Test Containers
-4. Docker Desktop (on local) and Test Container Cloud (on CI)
+4. Docker Desktop and Test Container Cloud
 
 # Running Tests
 
