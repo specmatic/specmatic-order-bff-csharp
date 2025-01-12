@@ -6,15 +6,11 @@ using static specmatic_order_bff_csharp.models.Api;
 
 namespace specmatic_order_bff_csharp.backend;
 
-public class OrderService
+public class OrderService(HttpClient httpClient)
 {
     private readonly string _orderApiUrl = Environment.GetEnvironmentVariable("ORDER_API_URL") ?? string.Empty;
     private const string AuthToken = "API-TOKEN-SPEC";
-    private readonly HttpClient _httpClient;
-    public OrderService(HttpClient httpClient = null)
-    {
-        _httpClient = httpClient ?? new HttpClient();
-    }
+
     public virtual int CreateOrder(OrderRequest orderRequest)
     {
         return CreateOrderAsync(new Order(orderRequest.Productid, orderRequest.Count, "pending")).Result;
@@ -33,7 +29,7 @@ public class OrderService
     private async Task<int> CreateOrderAsync(Order order)
     {
         var orderId = 0;
-        using var client = GetHttpClient();
+        using var client = ConfiguredHttpClient();
         var request = new HttpRequestMessage(Api.CreateOrder.Method, Api.CreateOrder.Url);
         request.Content = JsonContent.Create(order);
         
@@ -47,7 +43,7 @@ public class OrderService
     private async Task<int> CreateProductAsync(ProductRequest productRequest)
     {
         var productId = 0;
-        using var client = GetHttpClient();
+        using var client = ConfiguredHttpClient();
         var request = new HttpRequestMessage(CreateProducts.Method, CreateProducts.Url);
         request.Content = JsonContent.Create(productRequest);
         
@@ -61,7 +57,7 @@ public class OrderService
     private async Task<IEnumerable<Product>> FindProductsAsync(string type)
     {
         List<Product> products = [];
-        using var client = GetHttpClient();
+        using var client = ConfiguredHttpClient();
         var productEndpoint = type.Equals("")? ListProducts.Url : ListProducts.Url + $"?type={type}";
         var request = new HttpRequestMessage(HttpMethod.Get, productEndpoint);
         
@@ -73,14 +69,13 @@ public class OrderService
         return products;        
     }
     
-    private HttpClient GetHttpClient()
+    private HttpClient ConfiguredHttpClient()
     {
-        var client = _httpClient;
-        client.BaseAddress = client.BaseAddress ?? new Uri(_orderApiUrl);
-        client.Timeout = TimeSpan.FromSeconds(4);
-        client.DefaultRequestHeaders.Accept.Clear();
-        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
-        client.DefaultRequestHeaders.Add("Authenticate", AuthToken);
-        return client;
+        httpClient.BaseAddress ??= new Uri(_orderApiUrl);
+        httpClient.Timeout = TimeSpan.FromSeconds(4);
+        httpClient.DefaultRequestHeaders.Accept.Clear();
+        httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
+        httpClient.DefaultRequestHeaders.Add("Authenticate", AuthToken);
+        return httpClient;
     }
 }

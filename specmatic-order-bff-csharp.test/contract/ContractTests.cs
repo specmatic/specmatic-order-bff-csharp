@@ -7,8 +7,8 @@ namespace specmatic_order_bff_csharp.test.contract;
 
 public class ContractTests : IAsyncLifetime
 {
-    private IContainer _stubContainer, _testContainer;
-    private Process _appProcess;
+    private IContainer? _stubContainer, _testContainer;
+    private Process? _appProcess;
     private static readonly string Pwd =
         Directory.GetParent(Directory.GetCurrentDirectory())?.Parent?.Parent?.FullName ?? string.Empty;
     private readonly string _projectPath = Directory.GetParent(Pwd)?.FullName ?? string.Empty;
@@ -19,6 +19,10 @@ public class ContractTests : IAsyncLifetime
     public async Task ContractTestsAsync()
     {
         await RunContractTests();
+        if (_testContainer == null)
+        {
+            Assert.Fail("Contract Test Container is not available");
+        }
         var logs = await _testContainer.GetLogsAsync();
         if (!logs.Stdout.Contains("Failures: 0"))
         {
