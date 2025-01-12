@@ -30,7 +30,7 @@ public class OrderServiceTests
     public void CreateOrder_ShouldReturnOrderId_WhenOrderIsCreated()
     {
         // Arrange
-        var orderRequest = new OrderRequest(count:2,productid:2);
+        var orderRequest = new OrderRequest(count:2,productId:2);
         var expectedOrderId = 123;
 
         // Set up the mock response for the HTTP request

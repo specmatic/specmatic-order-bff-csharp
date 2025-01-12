@@ -24,7 +24,7 @@ public class OrderBffServiceTests
     {
         // Arrange
       
-        var orderRequest = new OrderRequest(count:2,productid:2);
+        var orderRequest = new OrderRequest(count:2,productId:2);
         var expectedId = 123;
         _mockOrderService.Setup(service => service.CreateOrder(It.IsAny<OrderRequest>())).Returns(expectedId);
 

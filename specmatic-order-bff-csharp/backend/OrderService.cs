@@ -13,7 +13,7 @@ public class OrderService(HttpClient httpClient)
 
     public virtual int CreateOrder(OrderRequest orderRequest)
     {
-        return CreateOrderAsync(new Order(orderRequest.Productid, orderRequest.Count, "pending")).Result;
+        return CreateOrderAsync(new Order(orderRequest.ProductId, orderRequest.Count, "pending")).Result;
     }
     
     public virtual int CreateProduct(ProductRequest productRequest)
@@ -26,32 +26,31 @@ public class OrderService(HttpClient httpClient)
         return FindProductsAsync(type).Result;
     }
 
+    private async Task<int> HandleIdResponse(HttpResponseMessage response)
+    {
+        var responseString = await response.Content.ReadAsStringAsync();
+        var responseObject = JsonSerializer.Deserialize<IdResponse>(responseString);
+        return responseObject?.Id ?? 0;
+    }
+
     private async Task<int> CreateOrderAsync(Order order)
     {
-        var orderId = 0;
         using var client = ConfiguredHttpClient();
         var request = new HttpRequestMessage(Api.CreateOrder.Method, Api.CreateOrder.Url);
         request.Content = JsonContent.Create(order);
         
         using var response = await client.SendAsync(request);
-        var responseString = await response.Content.ReadAsStringAsync();
-        var responseObject = JsonSerializer.Deserialize<IdResponse>(responseString);
-        if (responseObject != null) orderId = responseObject.Id;
-        return orderId;
+        return await HandleIdResponse(response);
     }
 
     private async Task<int> CreateProductAsync(ProductRequest productRequest)
     {
-        var productId = 0;
         using var client = ConfiguredHttpClient();
         var request = new HttpRequestMessage(CreateProducts.Method, CreateProducts.Url);
         request.Content = JsonContent.Create(productRequest);
         
         using var response = await client.SendAsync(request);
-        var responseString = await response.Content.ReadAsStringAsync();
-        var responseObject = JsonSerializer.Deserialize<IdResponse>(responseString);
-        if (responseObject != null) productId = responseObject.Id;
-        return productId;
+        return await HandleIdResponse(response);
     }
 
     private async Task<IEnumerable<Product>> FindProductsAsync(string type)
