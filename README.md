@@ -27,7 +27,7 @@ This will start the specmatic stub server for domain api using the information i
 dotnet test
 ```
 
-# Understand how to run the tests step by step
+## Understand how to run the tests step by step
   - Start Docker Desktop
   - Navigate to Project (`cd specmatic-order-bff-csharp`)
   - Run the application `dotnet run`
@@ -71,5 +71,6 @@ You result should look like:
 ```json
 [{"id":10,"name":"iPhone","type":"gadget","inventory":701}]
 ```
+Note: You might not get 701 for inventory, it can return can random integer.
 
 Also observe the logs in the Specmatic HTTP Stub Server.
