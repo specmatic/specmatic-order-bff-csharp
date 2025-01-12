@@ -19,24 +19,32 @@ public class ContractTests : IAsyncLifetime
     public async Task ContractTestsAsync()
     {
         await RunContractTests();
-        if (_testContainer == null)
-        {
-            Assert.Fail("Contract Test Container is not available");
-        }
+        Assert.NotNull(_testContainer);
         var logs = await _testContainer.GetLogsAsync();
         if (!logs.Stdout.Contains("Failures: 0"))
         {
-            Assert.Fail("There are failing tests");
+            Assert.Fail("There are failing tests, please refer to build/reports/specmatic/html/index.html for more details");
         }
     }
 
     public async Task InitializeAsync()
     {
+        await StartDomainServiceStub();
+        _appProcess = StartOrderBffService();
         await TestcontainersSettings.ExposeHostPortsAsync(8080)
             .ConfigureAwait(false);
+    }
 
-        StartOrderBffService();
-        await StartDomainServiceStub();
+    public async Task DisposeAsync()
+    {
+        if (_appProcess != null && !_appProcess.HasExited)
+        {
+            _appProcess.Kill();
+            await _appProcess.WaitForExitAsync();
+            _appProcess.Dispose();
+        }
+        if (_testContainer != null) await _testContainer.DisposeAsync();
+        if (_stubContainer != null) await _stubContainer.DisposeAsync();
     }
 
     private async Task RunContractTests()
@@ -58,9 +66,9 @@ public class ContractTests : IAsyncLifetime
         await _testContainer.StartAsync().ConfigureAwait(true);
     }
 
-    private void StartOrderBffService()
+    private Process StartOrderBffService()
     {
-        _appProcess = new Process
+        var appProcess = new Process
         {
             StartInfo = new ProcessStartInfo
             {
@@ -72,8 +80,9 @@ public class ContractTests : IAsyncLifetime
                 CreateNoWindow = true
             }
         };
-        _appProcess.Start();
-        Console.WriteLine($"Order BFF service started on id: {_appProcess.Id}");
+        appProcess.Start();
+        Console.WriteLine($"Order BFF service started on id: {appProcess.Id}");
+        return appProcess;
     }
 
     private async Task StartDomainServiceStub()
@@ -92,17 +101,5 @@ public class ContractTests : IAsyncLifetime
                 $"{TestContainerDirectory}/specmatic.yaml").Build();
         
         await _stubContainer.StartAsync().ConfigureAwait(false);
-    }
-
-    public async Task DisposeAsync()
-    {
-        await _stubContainer.DisposeAsync();
-        await _testContainer.DisposeAsync();
-        if (!_appProcess.HasExited)
-        {
-            _appProcess.Kill();
-            await _appProcess.WaitForExitAsync();
-            _appProcess.Dispose();
-        }
     }
 }

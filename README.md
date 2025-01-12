@@ -3,25 +3,23 @@
 * [Specmatic Website](https://specmatic.io)
 * [Specmatic Documentation](https://specmatic.io/documentation.html)
 
-This sample project demonstrates how we can practice contract-driven development and contract testing in a .NET core (C#) application that depends on an external domain service. Here, Specmatic is used to stub calls to domain API service based on its OpenAPI spec.
-
-Here is the domain api [contract/open api spec](https://github.com/znsio/specmatic-order-contracts/blob/main/io/specmatic/examples/store/openapi/api_order_v3.yaml)
-
-## Definitions
-* BFF: Backend for Front End
-* Domain API: API managing the domain model
-* Specmatic Stub server: Create a server that can act as a real service using its OpenAPI spec
+This sample project demonstrates below aspects of Contract-Driven Development
+* Contract testing a .NET core (C#) application by leveraging its OpenAPI spec to generate tests (#NOCODE)
+* Service Virtualization (Stub / Mock) dependencies of this application (System Under Test), again using OpenAPI specifications of those dependency services
 
 ## Background
-A typical web application might look like this. We can use Specmatic to practice contract-driven development and test all the components mentioned below. In this sample project, we look at how to do this for .NET core BFF which is dependent on Domain API Service demonstrating OpenAPI support in specmatic.
 
-![HTML client talks to client API which talks to backend API](assets/specmatic-order-bff-architecture.gif)
+The Backend For Frontend (BFF) application here is the System Under Test (SUT). It depends on Domain API service which is being Stubbed out using Specmatic thereby effectively isolating the SUT so that we can now use Specmatic to run Contract Tests. Both Service Stubbing and Contract Testing is based on OpenAPI specifications here.
 
-## Tech
+![CSharp Contract Driven Development](assets/specmatic-order-bff-architecture.gif)
+
+## Tech Stack
 1. .NET core
 2. Specmatic
+3. Test Containers
+4. Docker Desktop (on local) and Test Container Cloud (on CI)
 
-## Run Tests
+# Runing Tests
 
 This will start the specmatic stub server for domain api using the information in specmatic.yaml and run contract tests using Specmatic.
 1. Using Terminal -
