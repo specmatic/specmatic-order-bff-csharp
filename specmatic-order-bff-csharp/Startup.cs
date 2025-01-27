@@ -22,10 +22,13 @@ public class Startup
         services.AddScoped<OrderService>();
         
         services.AddHttpClient();
+        services.AddSwaggerGen();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment environment)
     {
+        app.UseSwagger();
+        app.UseSwaggerUI();
         app.UseRouting();
         app.UseEndpoints(endpoints => endpoints.MapControllers());
     }
