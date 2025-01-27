@@ -9,11 +9,12 @@ public class Startup
     {
         services.AddControllers().ConfigureApiBehaviorOptions(options =>
             {
-                options.InvalidModelStateResponseFactory = _ =>
-                    new ObjectResult(new ValidationException("Bad request"))
-                    {
-                        StatusCode = StatusCodes.Status400BadRequest
-                    };
+                options.InvalidModelStateResponseFactory = context =>
+                {
+                    var errors = context.ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
+                    var error = string.Join(", ", errors);
+                    return new BadRequestObjectResult(new ValidationException(error));
+                };
             })
             .AddXmlSerializerFormatters();
 
