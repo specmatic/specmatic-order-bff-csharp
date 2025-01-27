@@ -22,50 +22,35 @@ The Backend For Frontend (BFF) application here is the System Under Test (SUT). 
 
 # Running Tests
 
-This will start the specmatic stub server for domain api using the information in specmatic.yaml and run contract tests using Specmatic.
+Please make sure Docker Desktop is running on you local machine.
 
 ```shell
 dotnet test
 ```
 
+This will start the [ContracTest](specmatic-order-bff-csharp.test/contract/ContractTests.cs) which reads through [specmatic.yaml](specmatic-order-bff-csharp.test/specmatic.yaml) and does the following.
+* Starts a Stub Server which represents the Domain API based on OpenAPI spec listed under consumes section of the config
+* Starts the application programmatically
+* Runs Contract Test on the application based on the OpenAPI spec listed under the provides section of the config
+* You will now see a **Rich HTML API Coverage report** appear in [specmatic-order-bff-csharp.test/build/reports/specmatic/html/index.html](specmatic-order-bff-csharp.test/build/reports/specmatic/html/index.html)
+
 ## Understand how to run the tests step by step
-  - Start Docker Desktop
-  - Navigate to Project (`cd specmatic-order-bff-csharp`)
-  - Run the application `dotnet run`
-  - Navigate to test Project (`cd specmatic-order-bff-csharp.test`)
-  - Start the stub Server `docker run -v "$PWD/specmatic.yaml:/usr/src/app/specmatic.yaml" -v "$PWD/examples:/usr/src/app/examples" -p 9000:9000 znsio/specmatic stub --examples=examples`
-  - Run the tests `docker run --network host -v "$PWD/specmatic.yaml:/usr/src/app/specmatic.yaml" -v "$PWD/build/reports/specmatic:/usr/src/app/build/reports/specmatic"  znsio/specmatic test --port=8080 --host=host.docker.internal`
 
-# Break down each component to understand what is happening
+This section will walk you through each of the steps that were programmatically invoked in the above setup. Please make sure Docker Desktop is running on you local machine.
 
-## Start the dependent components
+* Start Domain API Stub Server (To emulate service dependencies)
+  * Open a terminal and navigate to the test project (`cd specmatic-order-bff-csharp.test`)
+  * Start the stub Server `docker run -v "$PWD/specmatic.yaml:/usr/src/app/specmatic.yaml" -v "$PWD/examples:/usr/src/app/examples" -p 9000:9000 znsio/specmatic stub --examples=examples`
+* Start the BFF Application (The System Under Test)
+  * Open another terminal and navigate to application project (`cd specmatic-order-bff-csharp`)
+  * Run the application `dotnet run` (alternatively you can run `dotnet watch run` if you want to make small changes and to see those changes reflect immediately)
+  * Check if your app is up and running
+    * Run `curl -H "pageSize: 10" "http://localhost:8080/findAvailableProducts?type=gadget"` (Note: For Windows OS, add .exe extension to curl command on PowerShell or use cmd.exe instead)
+    * The result should look something like this `[{"id":10,"name":"iPhone","type":"gadget","inventory":798}]` (Note: You might not see 798 for inventory, it can vary as it is a generated value as per current stub setup)
+    * You can also do the above using [Swagger UI]("http://localhost:8080/swagger")
+* Running Contract Tests
+  * In a fresh terminal navigate to the test project (`cd specmatic-order-bff-csharp.test`)
+  * Run the tests `docker run --network host -v "$PWD/specmatic.yaml:/usr/src/app/specmatic.yaml" -v "$PWD/build/reports/specmatic:/usr/src/app/build/reports/specmatic"  znsio/specmatic test --port=8080 --host=host.docker.internal`
+  * The **Rich HTML API Coverage report** will be available in [specmatic-order-bff-csharp.test/build/reports/specmatic/html/index.html](specmatic-order-bff-csharp.test/build/reports/specmatic/html/index.html)
 
-### Start domain api stub server
-
-```shell
-cd specmatic-order-bff-csharp.test
-docker run -v "$PWD/specmatic.yaml:/usr/src/app/specmatic.yaml" -v "$PWD/examples:/usr/src/app/examples" -p 9000:9000 znsio/specmatic stub --examples=examples
-```
-
-## Start BFF Server
-This will start the .NET core BFF server
-```shell
-cd specmatic-order-bff-csharp
-dotnet run
-```
-
-## Test if everything is working
-
-Note: For Windows OS, add `.exe` extension to curl command on PowerShell or use `cmd.exe` instead.
-
-```shell
-curl -H "pageSize: 10" "http://localhost:8080/findAvailableProducts?type=gadget"
-```
-
-You result should look like:
-```json
-[{"id":10,"name":"iPhone","type":"gadget","inventory":701}]
-```
-Note: You might not get 701 for inventory, it can return can random integer.
-
-Also observe the logs in the Specmatic HTTP Stub Server.
+Please observe the logs in the Specmatic HTTP Stub Server to get an understanding of how a request made by our contract test to the application results in application in turn calling the Specmatic HTTP Stub Server which returns response as per the expectations / examples that have been provided.

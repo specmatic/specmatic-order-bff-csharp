@@ -1,6 +1,4 @@
 namespace specmatic_order_bff_csharp.models;
-using System.Diagnostics.CodeAnalysis;
-
 public class Api
 {
     public HttpMethod Method { get; }

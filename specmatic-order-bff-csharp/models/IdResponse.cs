@@ -1,5 +1,4 @@
 using System.Text.Json.Serialization;
-using System.Diagnostics.CodeAnalysis;
 namespace specmatic_order_bff_csharp.models;
 
 public class IdResponse(int id)

@@ -1,8 +1,6 @@
 using System.Text.Json.Serialization;
 
 namespace specmatic_order_bff_csharp.models;
-using System.Diagnostics.CodeAnalysis;
-
 public class Product(int id, string name, string type, int inventory)
 {
     [JsonPropertyName("id")]
