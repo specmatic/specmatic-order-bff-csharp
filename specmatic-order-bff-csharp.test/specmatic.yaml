@@ -5,7 +5,6 @@ sources:
       - io/specmatic/examples/store/openapi/product_search_bff_v4.yaml
     consumes:
       - io/specmatic/examples/store/openapi/api_order_v3.yaml
-      - io/specmatic/examples/store/asyncapi/kafka.yaml
 
 examples:
  - "./examples/bff"
