@@ -7,7 +7,7 @@ namespace specmatic_order_bff_csharp.controllers;
 [Route("[controller]")]
 public class OrdersController(OrderBffService orderBffService) : ControllerBase
 {
-    [HttpPost]
+    [HttpPost("/orders")]
     public IActionResult CreateOrder([FromBody]OrderRequest orderRequest)
     {
         return StatusCode(StatusCodes.Status201Created, orderBffService.CreateOrder(orderRequest));
