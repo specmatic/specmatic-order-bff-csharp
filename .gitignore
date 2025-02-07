@@ -8,6 +8,7 @@ build/*
 .vscode/*
 bin/
 obj/
+.vs/
 build/reports/specmatic/
 /recordings_backup/
 specmatic-order-bff-csharp/build/

@@ -12,5 +12,6 @@ public class Api
     public static readonly Api CreateOrder = new(HttpMethod.Post, "/orders");
     public static readonly Api ListProducts = new(HttpMethod.Get, "/products");
     public static readonly Api CreateProducts = new(HttpMethod.Post, "/products");
+    public static readonly Api GetUuid = new(HttpMethod.Post, "/uuid");
 
 }

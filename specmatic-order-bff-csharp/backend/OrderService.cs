@@ -9,6 +9,7 @@ namespace specmatic_order_bff_csharp.backend;
 public class OrderService(HttpClient httpClient)
 {
     private readonly string _orderApiUrl = Environment.GetEnvironmentVariable("ORDER_API_URL") ?? string.Empty;
+    private readonly string? uuid = Environment.GetEnvironmentVariable("UUID");
     private const string AuthToken = "API-TOKEN-SPEC";
 
     public virtual int CreateOrder(OrderRequest orderRequest)
@@ -75,6 +76,7 @@ public class OrderService(HttpClient httpClient)
         httpClient.DefaultRequestHeaders.Accept.Clear();
         httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
         httpClient.DefaultRequestHeaders.Add("Authenticate", AuthToken);
+        if (uuid != null) httpClient.DefaultRequestHeaders.Add("UUID", uuid);
         return httpClient;
     }
 }

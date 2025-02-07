@@ -16,7 +16,8 @@
       "applicationUrl": "http://localhost:8080",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "ORDER_API_URL": "http://localhost:9000"
+        "ORDER_API_URL": "http://localhost:9000",
+        "UUID_API_URL": "http://localhost:9000"
       }
     },
     "IIS Express": {

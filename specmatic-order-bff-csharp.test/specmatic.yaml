@@ -5,6 +5,9 @@ sources:
       - io/specmatic/examples/store/openapi/product_search_bff_v4.yaml
     consumes:
       - io/specmatic/examples/store/openapi/api_order_v3.yaml
+  - provider: filesystem
+    consumes:
+    - uuid.openapi.yaml
 
 examples:
  - "./examples/bff"

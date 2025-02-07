@@ -91,15 +91,16 @@ public class ContractTests : IAsyncLifetime
             .WithImage("znsio/specmatic").WithCommand("stub")
             .WithCommand("--examples=examples")
             .WithPortBinding(9000)
-            .WithOutputConsumer(Consume.RedirectStdoutAndStderrToConsole())
             .WithExposedPort(9000)
-            .WithReuse(true)
+            .WithOutputConsumer(Consume.RedirectStdoutAndStderrToConsole())
+            .WithEnvironment("EXTENSIBLE_SCHEMA", "true")
             .WithBindMount($"{Pwd}/examples/domain_service", $"{TestContainerDirectory}/examples")
+            .WithBindMount($"{Pwd}/uuid.openapi.yaml", $"{TestContainerDirectory}/uuid.openapi.yaml")
+            .WithBindMount($"{Pwd}/specmatic.yaml", $"{TestContainerDirectory}/specmatic.yaml")
             .WithWaitStrategy(Wait.ForUnixContainer().UntilPortIsAvailable(9000))
-            .WithBindMount(
-                $"{Pwd}/specmatic.yaml",
-                $"{TestContainerDirectory}/specmatic.yaml").Build();
-        
+            .WithReuse(true)
+            .Build();
+
         await _stubContainer.StartAsync().ConfigureAwait(false);
     }
 }
