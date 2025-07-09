@@ -51,10 +51,10 @@ public class ContractTests : IAsyncLifetime
         var localReportDirectory = Path.Combine(Pwd, "build", "reports");
         Directory.CreateDirectory(localReportDirectory);
         _testContainer = new ContainerBuilder()
-            .WithImage("znsio/specmatic").WithCommand("test")
+            .WithImage("specmatic/specmatic").WithCommand("test")
             .WithCommand("--port=8080")
             .WithCommand("--host=host.testcontainers.internal")
-            .WithCommand($"--filter='/health'") 
+            .WithCommand("--filter=PATH!='/health'") 
             .WithOutputConsumer(Consume.RedirectStdoutAndStderrToConsole())
             .WithWaitStrategy(Wait.ForUnixContainer().UntilMessageIsLogged("Tests run:"))
             .WithBindMount(localReportDirectory, $"{TestContainerDirectory}/build/reports")
@@ -87,7 +87,7 @@ public class ContractTests : IAsyncLifetime
     private async Task StartDomainServiceStub()
     {
         _stubContainer = new ContainerBuilder()
-            .WithImage("znsio/specmatic").WithCommand("stub")
+            .WithImage("specmatic/specmatic").WithCommand("stub")
             .WithCommand("--examples=examples")
             .WithPortBinding(9000)
             .WithOutputConsumer(Consume.RedirectStdoutAndStderrToConsole())

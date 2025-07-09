@@ -6,6 +6,7 @@ build/*
 /kafka-logs/
 /.specmatic/
 .vscode/*
+.vs/*
 bin/
 obj/
 build/reports/specmatic/
