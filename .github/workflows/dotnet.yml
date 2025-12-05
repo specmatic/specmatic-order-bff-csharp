@@ -55,7 +55,7 @@ jobs:
     - name: Run Specmatic Insights Build Reporter
       run: |
         docker run \
-          -v ${{ github.workspace }}:/usr/share/app \
+          -v ${{ github.workspace }}:/usr/src/app \
           -v ~/.specmatic:/root/.specmatic \
           specmatic/specmatic \
           send-report \
