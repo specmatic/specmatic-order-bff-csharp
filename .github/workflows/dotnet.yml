@@ -57,7 +57,7 @@ jobs:
       if: github.ref == 'refs/heads/main'
       run: |
         docker run \
-          -v ${{ github.workspace }}:/usr/src/app \
+          -v ${{ github.workspace }}/specmatic-order-bff-csharp.test:/usr/src/app \
           -v ~/.specmatic:/root/.specmatic \
           specmatic/specmatic \
           send-report \

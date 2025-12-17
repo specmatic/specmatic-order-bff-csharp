@@ -13,6 +13,9 @@ public class ContractTests : IAsyncLifetime
     private readonly string _projectPath = Directory.GetParent(Pwd)?.FullName ?? string.Empty;
     private const string ProjectName = "specmatic-order-bff-csharp/specmatic-order-bff-csharp.csproj";
     private const string TestContainerDirectory = "/usr/src/app";
+
+     private readonly string localReportDirectory = Path.Combine(Pwd, "build", "reports");
+
     [Fact]
     public async Task ContractTestsAsync()
     {
@@ -28,6 +31,7 @@ public class ContractTests : IAsyncLifetime
 
     public async Task InitializeAsync()
     {
+        Directory.CreateDirectory(localReportDirectory);
         await StartDomainServiceStub();
         _appProcess = StartOrderBffService();
     }
@@ -41,13 +45,14 @@ public class ContractTests : IAsyncLifetime
             _appProcess.Dispose();
         }
         if (_testContainer != null) await _testContainer.DisposeAsync();
-        if (_stubContainer != null) await _stubContainer.DisposeAsync();
+        if (_stubContainer != null) {
+            await _stubContainer.StopAsync(); 
+            await _stubContainer.DisposeAsync();
+        }
     }
 
     private async Task RunContractTests()
     { 
-        var localReportDirectory = Path.Combine(Pwd, "build", "reports");
-        Directory.CreateDirectory(localReportDirectory);
         _testContainer = new ContainerBuilder()
             .WithImage("specmatic/specmatic").WithCommand("test")
             .WithCommand("--port=8080")
@@ -90,8 +95,8 @@ public class ContractTests : IAsyncLifetime
             .WithPortBinding(9000)
             .WithOutputConsumer(Consume.RedirectStdoutAndStderrToConsole())
             .WithExposedPort(9000)
-            .WithReuse(true)
             .WithBindMount($"{Pwd}/examples/domain_service", $"{TestContainerDirectory}/examples")
+            .WithBindMount(localReportDirectory, $"{TestContainerDirectory}/build/reports")
             .WithWaitStrategy(Wait.ForUnixContainer().UntilInternalTcpPortIsAvailable(9000))
             .WithBindMount(
                 $"{Pwd}/specmatic.yaml",
