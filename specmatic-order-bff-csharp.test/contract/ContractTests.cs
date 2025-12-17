@@ -95,6 +95,7 @@ public class ContractTests : IAsyncLifetime
             .WithPortBinding(9000)
             .WithOutputConsumer(Consume.RedirectStdoutAndStderrToConsole())
             .WithExposedPort(9000)
+            .WithReuse(true)
             .WithBindMount($"{Pwd}/examples/domain_service", $"{TestContainerDirectory}/examples")
             .WithBindMount(localReportDirectory, $"{TestContainerDirectory}/build/reports")
             .WithWaitStrategy(Wait.ForUnixContainer().UntilInternalTcpPortIsAvailable(9000))
