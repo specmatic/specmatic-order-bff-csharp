@@ -16,12 +16,12 @@ public class ProductsController(OrderBffService orderBffService) : ControllerBas
     }
 
     [HttpGet("/findAvailableProducts")]
-    public IActionResult FindAvailableProducts([FromHeader, Required]int pageSize, [FromQuery]string? type = "")
+    public IActionResult FindAvailableProducts([FromHeader, Required]int pageSize, [FromQuery]ProductType? type = null)
     {
         if (pageSize<0) return BadRequest(new {Error ="Page size cannot be less than zero"});
         try
         {
-            return StatusCode(StatusCodes.Status200OK, orderBffService.FindProducts(type ?? string.Empty));
+            return StatusCode(StatusCodes.Status200OK, orderBffService.FindProducts(type));
         }
         catch (Exception)
         {

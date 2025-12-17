@@ -13,7 +13,7 @@ public class OrderService(HttpClient httpClient)
 
     public virtual int CreateOrder(OrderRequest orderRequest)
     {
-        return CreateOrderAsync(new Order(orderRequest.Productid, orderRequest.Count, "pending")).Result;
+        return CreateOrderAsync(new Order(orderRequest.Productid, orderRequest.Count, OrderStatus.pending)).Result;
     }
     
     public virtual int CreateProduct(ProductRequest productRequest)
@@ -21,7 +21,7 @@ public class OrderService(HttpClient httpClient)
         return CreateProductAsync(productRequest).Result;
     }
 
-    public virtual IEnumerable<Product> FindProducts(string type)
+    public virtual IEnumerable<Product> FindProducts(ProductType? type)
     {
         return FindProductsAsync(type).Result;
     }
@@ -53,11 +53,11 @@ public class OrderService(HttpClient httpClient)
         return await HandleIdResponse(response);
     }
 
-    private async Task<IEnumerable<Product>> FindProductsAsync(string type)
+    private async Task<IEnumerable<Product>> FindProductsAsync(ProductType? type)
     {
         List<Product> products = [];
         using var client = ConfiguredHttpClient();
-        var productEndpoint = type.Equals("")? ListProducts.Url : ListProducts.Url + $"?type={type}";
+        var productEndpoint = type is null ? ListProducts.Url : ListProducts.Url + $"?type={type}";
         var request = new HttpRequestMessage(HttpMethod.Get, productEndpoint);
         
         using var response = await client.SendAsync(request);

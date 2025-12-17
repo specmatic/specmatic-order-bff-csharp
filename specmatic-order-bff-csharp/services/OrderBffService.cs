@@ -16,7 +16,7 @@ public class OrderBffService(OrderService orderService)
         return new IdResponse(id);
     }
 
-    public IEnumerable<Product> FindProducts(string type)
+    public IEnumerable<Product> FindProducts(ProductType? type)
     {
         return orderService.FindProducts(type);
     }

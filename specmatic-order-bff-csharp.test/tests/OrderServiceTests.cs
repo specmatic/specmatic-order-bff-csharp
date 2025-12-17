@@ -55,7 +55,7 @@ public class OrderServiceTests
     public  void CreateProduct_ShouldReturnProductId_WhenProductIsCreated()
     {
         // Arrange
-        var productRequest = new ProductRequest("iPhone", "goods", 100);
+        var productRequest = new ProductRequest("iPhone", ProductType.gadget, 100);
         var expectedProductId = 456;
 
         var mockResponse = new HttpResponseMessage(HttpStatusCode.OK)
@@ -83,11 +83,11 @@ public class OrderServiceTests
     public  void FindProducts_ShouldReturnListOfProducts_WhenProductsAreFound()
     {
         // Arrange
-        var productType = "Electronics";
+        var productType = ProductType.gadget;
         var expectedProducts = new List<Product>
         {
-            new Product(id: 1, name: "Phone", type: "Electronics", inventory: 100),
-            new Product(id: 2, name: "Laptop", type: "Electronics", inventory: 100)
+            new Product(id: 1, name: "Phone", productType: ProductType.gadget, inventory: 100),
+            new Product(id: 2, name: "Laptop", productType: ProductType.gadget, inventory: 100)
         };
 
         var mockResponse = new HttpResponseMessage(HttpStatusCode.OK)

@@ -38,7 +38,7 @@ public class OrderBffServiceTests
     public void CreateProduct_ShouldReturnIdResponse_WhenProductIsCreated()
     {
         // Arrange
-        var productRequest = new ProductRequest("iPhone", "goods", 100);
+        var productRequest = new ProductRequest("iPhone", ProductType.gadget, 100);
         var expectedId = 456;
         _mockOrderService.Setup(service => service.CreateProduct(It.IsAny<ProductRequest>())).Returns(expectedId);
 
@@ -54,11 +54,11 @@ public class OrderBffServiceTests
     public void FindProducts_ShouldReturnListOfProducts_WhenProductsAreFound()
     {
         // Arrange
-        var productType = "Electronics";
+        var productType = ProductType.gadget;
         var expectedProducts = new List<Product>
         {
-            new Product(id: 1,name: "Phone", type: "Electronics", inventory: 100),
-            new Product(id: 2, name: "Laptop", type: "Electronics", inventory: 100)
+            new Product(id: 1,name: "Phone", productType: ProductType.gadget, inventory: 100),
+            new Product(id: 2, name: "Laptop", productType: ProductType.gadget, inventory: 100)
         };
         _mockOrderService.Setup(service => service.FindProducts(productType)).Returns(expectedProducts);
 

@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using specmatic_order_bff_csharp.backend;
 using specmatic_order_bff_csharp.services;
-using ValidationException = specmatic_order_bff_csharp.exceptions.ValidationException;
+using specmatic_uuid_api.Models;
 namespace specmatic_order_bff_csharp;
+
 public class Startup
 {
     public void ConfigureServices(IServiceCollection services)
@@ -11,16 +12,21 @@ public class Startup
             {
                 options.InvalidModelStateResponseFactory = context =>
                 {
-                    var errors = context.ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
-                    var error = string.Join(", ", errors);
-                    return new BadRequestObjectResult(new ValidationException(error));
+                    var errors = context.ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                    var response = new ErrorResponse
+                    {
+                        TimeStamp = DateTime.UtcNow.ToString("o"),
+                        Error = "Bad Request",
+                        Message = string.Join(", ", errors)
+                    };
+                    return new BadRequestObjectResult(response);
                 };
             })
             .AddXmlSerializerFormatters();
 
         services.AddScoped<OrderBffService>();
         services.AddScoped<OrderService>();
-        
+
         services.AddHttpClient();
         services.AddSwaggerGen();
     }
