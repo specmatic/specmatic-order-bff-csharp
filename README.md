@@ -45,11 +45,11 @@ This section will walk you through each of the steps that were programmatically 
 * Start the stub Server
 * For Unix and PowerShell:<br/><br/>
   ```shell
-  docker run --rm -v "$(pwd)/specmatic.yaml:/usr/src/app/specmatic.yaml" -v "$(pwd)/examples:/usr/src/app/examples/domain_service" -p 9000:9000 specmatic/specmatic stub --examples=examples
+  docker run --rm -v "$(pwd)/specmatic.yaml:/usr/src/app/specmatic.yaml" -v "$(pwd)/examples:/usr/src/app/examples/domain_service" -p 9000:9000 specmatic/specmatic mock --examples=examples
   ```
 * For Windows CMD Prompt:<br/><br/>
   ```shell
-  docker run --rm -v "%cd%/specmatic.yaml:/usr/src/app/specmatic.yaml" -v "%cd%/examples:/usr/src/app/examples/domain_service" -p 9000:9000 specmatic/specmatic stub --examples=examples
+  docker run --rm -v "%cd%/specmatic.yaml:/usr/src/app/specmatic.yaml" -v "%cd%/examples:/usr/src/app/examples/domain_service" -p 9000:9000 specmatic/specmatic mock --examples=examples
   ```
 
 
