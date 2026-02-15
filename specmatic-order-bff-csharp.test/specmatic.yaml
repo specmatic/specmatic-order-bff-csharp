@@ -1,24 +1,61 @@
-version: 2
-contracts:
-  - git:
-      url: https://github.com/specmatic/specmatic-order-contracts.git
-    provides:
-      - io/specmatic/examples/store/openapi/product_search_bff_v4.yaml
-    consumes:
-      - io/specmatic/examples/store/openapi/api_order_v3.yaml
-report:
-  formatters:
-    - type: text
-      layout: table
-  types:
-    APICoverage:
-      OpenAPI:
-        successCriteria:
-          minThresholdPercentage: 70
-          maxMissedEndpointsInSpec: 0
-          enforce: true
-test:
-  resiliencyTests:
-    enable: all
-examples:
-  - src/test/resources/bff
+version: 3
+systemUnderTest:
+  service:
+    $ref: "#/components/services/productSearchBffService"
+    runOptions:
+      $ref: "#/components/runOptions/productSearchBffServiceTest"
+dependencies:
+  services:
+    - service:
+        $ref: "#/components/services/orderApiService"
+        runOptions:
+          $ref: "#/components/runOptions/orderApiServiceMock"
+        data:
+          examples:
+            - directories:
+               - ./examples/domain_service
+specmatic:
+  governance:
+    report:
+      formats:
+        - html
+    successCriteria:
+      minCoveragePercentage: 70
+      maxMissedOperationsInSpec: 0
+      enforce: true
+  settings:
+    $ref: "#/components/settings/contractTests"
+components:
+  sources:
+    specsRepo:
+      git:
+        url: https://github.com/specmatic/specmatic-order-contracts.git
+  services:
+    productSearchBffService:
+      definitions:
+        - definition:
+            source:
+              $ref: "#/components/sources/specsRepo"
+            specs:
+              - io/specmatic/examples/store/openapi/product_search_bff_v4.yaml
+    orderApiService:
+      definitions:
+        - definition:
+            source:
+              $ref: "#/components/sources/specsRepo"
+            specs:
+              - io/specmatic/examples/store/openapi/api_order_v3.yaml
+  runOptions:
+    productSearchBffServiceTest:
+      openapi:
+        type: test
+        baseUrl: ${APP_URL:http://localhost:8080}
+        filter: "PATH!='/health'"
+    orderApiServiceMock:
+      openapi:
+        type: mock
+        baseUrl: http://0.0.0.0:9000
+  settings:
+    contractTests:
+      test:
+        resiliencyTests: all

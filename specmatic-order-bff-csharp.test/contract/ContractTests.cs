@@ -54,17 +54,15 @@ public class ContractTests : IAsyncLifetime
     private async Task RunContractTests()
     { 
         _testContainer = new ContainerBuilder()
-            .WithImage("specmatic/specmatic").WithCommand("test")
-            .WithCommand("--port=8080")
-            .WithCommand("--host=host.docker.internal")
-            .WithCommand("--filter=PATH!='/health'") 
+            .WithImage("specmatic/specmatic")
+            .WithCommand("test")
             .WithOutputConsumer(Consume.RedirectStdoutAndStderrToConsole())
+            .WithEnvironment("APP_URL", "http://host.docker.internal:8080")
             .WithBindMount(localReportDirectory, $"{TestContainerDirectory}/build/reports")
+            .WithBindMount($"{Pwd}/specmatic.yaml", $"{TestContainerDirectory}/specmatic.yaml")
             .WithExtraHost("host.docker.internal", "host-gateway")
-            .WithBindMount(
-                $"{Pwd}/specmatic.yaml",
-                $"{TestContainerDirectory}/specmatic.yaml").Build();
-         
+            .Build();
+
         await _testContainer.StartAsync().ConfigureAwait(true);
     }
 
@@ -90,18 +88,17 @@ public class ContractTests : IAsyncLifetime
     private async Task StartDomainServiceStub()
     {
         _stubContainer = new ContainerBuilder()
-            .WithImage("specmatic/specmatic").WithCommand("stub")
-            .WithCommand("--examples=examples")
-            .WithPortBinding(9000)
+            .WithImage("specmatic/specmatic")
+            .WithCommand("mock")
             .WithOutputConsumer(Consume.RedirectStdoutAndStderrToConsole())
-            .WithExposedPort(9000)
             .WithReuse(true)
-            .WithBindMount($"{Pwd}/examples/domain_service", $"{TestContainerDirectory}/examples")
+            .WithPortBinding(9000)
+            .WithExposedPort(9000)
             .WithBindMount(localReportDirectory, $"{TestContainerDirectory}/build/reports")
+            .WithBindMount($"{Pwd}/specmatic.yaml", $"{TestContainerDirectory}/specmatic.yaml")
+            .WithBindMount($"{Pwd}/examples/domain_service", $"{TestContainerDirectory}/examples/domain_service")
             .WithWaitStrategy(Wait.ForUnixContainer().UntilInternalTcpPortIsAvailable(9000))
-            .WithBindMount(
-                $"{Pwd}/specmatic.yaml",
-                $"{TestContainerDirectory}/specmatic.yaml").Build();
+            .Build();
         
         await _stubContainer.StartAsync().ConfigureAwait(false);
     }
