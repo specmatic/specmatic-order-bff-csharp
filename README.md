@@ -86,4 +86,4 @@ This section will walk you through each of the steps that were programmatically 
   ```
 * The **Rich HTML API Coverage report** will be available in [specmatic-order-bff-csharp.test/build/reports/specmatic/html/index.html](specmatic-order-bff-csharp.test/build/reports/specmatic/html/index.html)
 
-Please observe the logs in the Specmatic HTTP Stub Server to get an understanding of how a request made by our contract test to the application results in application in turn calling the Specmatic HTTP Stub Server which returns response as per the expectations / examples that have been provided.
+Please observe the logs in the Specmatic HTTP Stub Server to get an understanding of how a request made by our contract test to the application results in application in turn calling the Specmatic HTTP Stub Server which returns response as per the expectations / examples that have been provided. 
