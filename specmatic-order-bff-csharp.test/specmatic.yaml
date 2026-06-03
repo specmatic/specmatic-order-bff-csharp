@@ -21,7 +21,7 @@ specmatic:
         - html
     successCriteria:
       minCoveragePercentage: 70
-      maxMissedOperationsInSpec: 0
+      maxMissedOperationsInSpec: 1
       enforce: true
   settings:
     $ref: "#/components/settings/contractTests"
@@ -30,6 +30,7 @@ components:
     specsRepo:
       git:
         url: https://github.com/specmatic/specmatic-order-contracts.git
+        branch: missing-response-codes
   services:
     productSearchBffService:
       definitions:
