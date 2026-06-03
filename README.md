@@ -31,7 +31,7 @@ This will start the [ContractTest](specmatic-order-bff-csharp.test/contract/Cont
 * Starts a Stub Server which represents the Domain API based on OpenAPI spec listed under consumes section of the config
 * Starts the application programmatically
 * Runs Contract Test on the application based on the OpenAPI spec listed under the provides section of the config
-* You will now see a **Rich HTML API Coverage report** appear in [specmatic-order-bff-csharp.test/build/reports/specmatic/html/index.html](specmatic-order-bff-csharp.test/build/reports/specmatic/html/index.html)
+* You will now see a **Rich HTML API Coverage report** appear in [specmatic-order-bff-csharp.test/build/reports/specmatic/test/html/index.html](specmatic-order-bff-csharp.test/build/reports/specmatic/test/html/index.html)
 
 ## Understand how to run the tests step by step manually if required
 
@@ -84,6 +84,6 @@ This section will walk you through each of the steps that were programmatically 
   ```shell
   docker run --rm --network host -v "%cd%/specmatic.yaml:/usr/src/app/specmatic.yaml" -v "%cd%/examples:/usr/src/app/examples/bff" -v "%cd%/build/reports/specmatic:/usr/src/app/build/reports/specmatic" specmatic/specmatic test --port=8080 --host=host.docker.internal --examples=examples
   ```
-* The **Rich HTML API Coverage report** will be available in [specmatic-order-bff-csharp.test/build/reports/specmatic/html/index.html](specmatic-order-bff-csharp.test/build/reports/specmatic/html/index.html)
+* The **Rich HTML API Coverage report** will be available in [specmatic-order-bff-csharp.test/build/reports/specmatic/test/html/index.html](specmatic-order-bff-csharp.test/build/reports/specmatic/test/html/index.html)
 
 Please observe the logs in the Specmatic HTTP Stub Server to get an understanding of how a request made by our contract test to the application results in application in turn calling the Specmatic HTTP Stub Server which returns response as per the expectations / examples that have been provided. 
