@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using specmatic_order_bff_csharp.backend;
 using specmatic_order_bff_csharp.services;
 using specmatic_uuid_api.Models;
@@ -24,6 +25,7 @@ public class Startup
             })
             .AddXmlSerializerFormatters();
 
+        services.AddSingleton<IClientErrorFactory, JsonClientErrorFactory>();
         services.AddScoped<OrderBffService>();
         services.AddScoped<OrderService>();
 
