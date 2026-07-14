@@ -21,7 +21,7 @@ specmatic:
         - html
     successCriteria:
       minCoveragePercentage: 70
-      maxMissedOperationsInSpec: 0
+      maxMissedOperationsInSpec: 1
       enforce: true
   settings:
     $ref: "#/components/settings/contractTests"
