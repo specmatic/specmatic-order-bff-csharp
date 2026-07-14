@@ -54,7 +54,7 @@ jobs:
         COVERLET_OUTPUT_FORMAT: cobertura
     
     - name: Run Specmatic Insights Build Reporter
-      if: github.ref == 'refs/heads/main'
+#      if: github.ref == 'refs/heads/main'
       run: |
         docker run \
           --rm \
@@ -63,8 +63,8 @@ jobs:
           -e GIT_CONFIG_KEY_0=safe.directory \
           -e GIT_CONFIG_VALUE_0=/usr/src/app \
           -v "${HOME}/.specmatic:/root/.specmatic:ro" \
-          -v "${{ github.workspace }}/specmatic-order-bff-csharp.test:/usr/src/app" \
-          -w /usr/src/app \
+          -v "${{ github.workspace }}:/usr/src/app" \
+          -w /usr/src/app/specmatic-order-bff-csharp.test \
           specmatic/specmatic \
           send-report \
           --metadata build_url=${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} \
